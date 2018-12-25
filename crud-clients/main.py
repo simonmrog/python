@@ -1,24 +1,35 @@
 import sys
+import csv
+import os
 
 NO_CLIENT_MESSAGE = "Client is not in the client list"
 CLIENT_MESSAGE = "Client is in the client list"
+CLIENT_FILE = ".clients.csv" ##hidden file called clients.csv
+CLIENT_SCHEME = ["code", "name", "company", "email", "position"]
 
-clients = [
-    {
-        "code": 0,
-        "name": "Pablo",
-        "company": "Google",
-        "email": "pablo@google.com",
-        "position": "software engineer"
-    },
-    {
-        "code": 1,
-        "name": "Ricardo",
-        "company": "Facebook",
-        "email": "ricardo@facebook.com",
-        "position": "data engineer"
-    }
-]
+clients = []
+
+
+def _init_data ():
+
+    with open (CLIENT_FILE, mode = "r") as file:
+        reader = csv.DictReader (file, fieldnames=CLIENT_SCHEME)
+
+        for row in reader:
+            clients.append (row)
+    file.close()
+
+def _save_data ():
+
+    temp = "{}.tmp".format (CLIENT_FILE)
+    with open (temp, mode = "w") as file:
+        writer = csv.DictWriter (file, fieldnames=CLIENT_SCHEME)
+        writer.writerows (clients)
+
+    file.close()
+
+    os.remove (CLIENT_FILE)
+    os.rename (temp, CLIENT_FILE)
 
 
 def create_client (client):
@@ -46,7 +57,7 @@ def update_client (client_code, updated_client):
     global clients
 
     if read_client(client_code):
-        clients[client_code] = updated_client
+        clients[int (client_code)] = updated_client
     else:
         print (NO_CLIENT_MESSAGE)
 
@@ -55,13 +66,17 @@ def delete_client (client_code):
     global clients
 
     if read_client(client_code):
-        clients.pop(client_code)
+        clients.pop(int (client_code))
     else:
         print (NO_CLIENT_MESSAGE)
 
 
 def list_clients ():
     global clients
+
+    print('code |  name  | company  | email  | position')
+    print('*' * 40)
+
     for client in clients:
         print ("{code} | {name} | {company} | {email} | {position}".format(
             code = client["code"], name = client["name"], company = client["company"],
@@ -94,7 +109,7 @@ def _code_of (client_name):
 def _get_client_from_user ():
 
     client = {
-        "code": int(_get_client_field("code")),
+        "code": _get_client_field("code"),
         "name": _get_client_field("name"),
         "company": _get_client_field("company"),
         "email": _get_client_field("email"),
@@ -131,7 +146,8 @@ def _print_welcome():
     print ("[L]ist clients");
 
 
-if (__name__ == "__main__"):
+def main ():
+    _init_data ()
     _print_welcome()
 
     command = input()
@@ -140,7 +156,6 @@ if (__name__ == "__main__"):
     if command == "C":
         client = _get_client_from_user()
         create_client (client)
-        list_clients();
 
     elif command == "S":
         search_client ()
@@ -148,15 +163,18 @@ if (__name__ == "__main__"):
     elif command == "U":
         updated_client = _get_client_from_user ()
         update_client(updated_client["code"], updated_client)
-        list_clients();
 
     elif command == "D":
-        client_code = int (_get_client_field("code"))
+        client_code = _get_client_field("code")
         delete_client (client_code)
-        list_clients();
 
     elif command == "L":
         list_clients();
 
     else:
         print ("Invalid command.")
+
+    _save_data ()
+
+if (__name__ == "__main__"):
+    main ()
