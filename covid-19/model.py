@@ -71,11 +71,14 @@ class COVIDModel:
 
 @click.command()
 @click.option("--day_to_predict", default=50, help="day to predict COVID-19 infected", type=int)
+@click.option("--d", default=True, help="default mode for day to predict", type=bool)
 @click.option("--split", default=False, help="train-test splitting of the data", type=bool)
 @click.option("--degree", default=3, help="degree of the fit polynomial", type=int)
-def start(day_to_predict, split, degree):
+def start(day_to_predict, split, degree, d):
   data = pd.read_csv("./data.csv")
   print ("DAYS IN DATABASE: ", len(data))
+  if d and day_to_predict == 50:
+    day_to_predict = len(data)
   day_to_predict = [day_to_predict]
   model = COVIDModel(data=data, split_data=split, degree=degree)
   prediction = model.predict(day_to_predict)
