@@ -19,23 +19,28 @@ class COVIDModel:
   x_test = np.ndarray
   y_pred: np.ndarray
 
-  def __init__(self, data, split_data=False, degree=3):
-    print(degree)
+  def __init__(self, data, split_data=False, degree=3, exp_fit=True):
+    self.exp_fit = exp_fit
     self.model = LinearRegression()
     self.degree = degree
     self.split_data = split_data
     self.data = data
     self.X = data["day_number"].to_numpy()
     self.y = data["infected"].to_numpy()
+    if exp_fit:
+      self.y = np.log(self.y)
     if split_data:
       self.x_train, self.x_test, self.y_train, self.y_test = self._split_data()
     else:
       self.x_train = self.X
       self.x_test = self.X
       self.y_train = self.y
-    x_train_poly = self._get_polynomials(self.x_train)
-    self._train(x_train_poly, self.y_train)
-
+    if self.exp_fit:
+      x_train_ = self.x_train.reshape(-1, 1)
+      self._train(x_train_, self.y_train)
+    else:
+      x_train_poly = self._get_polynomials(self.x_train)
+      self._train(x_train_poly, self.y_train)
 
 # train_test_split
   def _split_data(self):
@@ -54,15 +59,22 @@ class COVIDModel:
     if not self.split_data:
       self.x_test = x_test
     X = np.array(self.x_test).reshape(-1, 1)
-    x_test_poly = self._get_polynomials(X)
-    self.y_pred = self.model.predict(x_test_poly)
+    if self.exp_fit:
+      x_test = X
+    else:
+      x_test = self._get_polynomials(X)
+    self.y_pred = np.exp(self.model.predict(x_test))
     return self.y_pred
 
   def score(self):
-    return self.model.score(self._get_polynomials(self.x_train), self.y_train)
+    if self.exp_fit:
+      return self.model.score(self.x_train.reshape(-1, 1),  self.y_train)
+    else:
+      return self.model.score(self._get_polynomials(self.x_train), self.y_train)
 
   def _plot_results(self):
-    plt.scatter(self.x_train, self.y_train, color="green")
+    plt.scatter(self.x_train, self.predict(self.x_train), color='green')
+    # plt.scatter(self.x_train, np.exp(self.y_train), color="green")
     plt.scatter(self.x_test, self.y_pred, color="red")
     plt.xlabel("Time (days)")
     plt.ylabel("Infected")
@@ -70,16 +82,18 @@ class COVIDModel:
 
 
 @click.command()
-@click.option("--day_to_predict", default=0, help="day to predict COVID-19 infected", type=int)
+@click.option("--day_to_predict", default=50, help="day to predict COVID-19 infected", type=int)
+@click.option("--d", default=True, help="default mode for day to predict", type=bool)
 @click.option("--split", default=False, help="train-test splitting of the data", type=bool)
 @click.option("--degree", default=3, help="degree of the fit polynomial", type=int)
-def start(day_to_predict, split, degree):
+@click.option("--exp_fit", default=True, help="exponential fit", type=bool)
+def start(day_to_predict, split, degree, exp_fit, d):
   data = pd.read_csv("./data.csv")
   print ("DAYS IN DATABASE: ", len(data))
-  if day_to_predict == 0:
+  if d and day_to_predict == 50:
     day_to_predict = len(data) + 1
   day_to_predict = [day_to_predict]
-  model = COVIDModel(data=data, split_data=split, degree=degree)
+  model = COVIDModel(data=data, split_data=split, degree=degree, exp_fit=exp_fit)
   prediction = model.predict(day_to_predict)
   score = model.score()
   print("ACCURACY: ", score)
