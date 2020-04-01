@@ -8,7 +8,7 @@ from sklearn.preprocessing import FunctionTransformer
 np.random.seed(123)
 transformer = FunctionTransformer(np.log, validate=True)
 
-data = pd.read_csv("./data.csv")
+data = pd.read_csv("./infected.csv")
 x = data.day_number.to_numpy().reshape(-1, 1)
 y = data.infected.to_numpy()
 y_trans = transformer.fit_transform(y.reshape(-1, 1))            # 1

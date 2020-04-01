@@ -88,7 +88,7 @@ class COVIDModel:
 @click.option("--degree", default=3, help="degree of the fit polynomial", type=int)
 @click.option("--exp_fit", default=True, help="exponential fit", type=bool)
 def start(day_to_predict, split, degree, exp_fit, d):
-  data = pd.read_csv("./data.csv")
+  data = pd.read_csv("./infected.csv")
   print ("DAYS IN DATABASE: ", len(data))
   if d and day_to_predict == 50:
     day_to_predict = len(data) + 1

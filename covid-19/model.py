@@ -73,7 +73,7 @@ class COVIDModel:
 @click.option("--split", default=False, help="train-test splitting of the data", type=bool)
 @click.option("--degree", default=5, help="degree of the fit polynomial", type=int)
 def start(day_to_predict, split, degree):
-  data = pd.read_csv("./data.csv")
+  data = pd.read_csv("./infected.csv")
   print ("DAYS IN DATABASE: ", len(data))
   if day_to_predict == 0:
     day_to_predict = len(data) + 1
