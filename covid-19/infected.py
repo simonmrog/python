@@ -63,29 +63,29 @@ class COVIDModel:
   def _plot_results(self):
     plt.scatter(self.x_train, self.y_train, color="green")
     plt.scatter(self.x_test, self.y_pred, color="red")
+    plt.plot(self.x_train, self.predict(self.x_train), color="red")
+    ## plt.plot(self.x_train, self.y_train, color="green")
     plt.xlabel("Time (days)")
     plt.ylabel("Infected")
     plt.show()
 
 
 @click.command()
-@click.option("--day_to_predict", default=0, help="day to predict COVID-19 infected", type=int)
+@click.option("--day", default=0, help="day to predict COVID-19 infected", type=int)
 @click.option("--split", default=False, help="train-test splitting of the data", type=bool)
-@click.option("--degree", default=5, help="degree of the fit polynomial", type=int)
-def start(day_to_predict, split, degree):
+@click.option("--degree", default=3, help="degree of the fit polynomial", type=int)
+def start(day=0, split=False, degree=3):
   data = pd.read_csv("./infected.csv")
-  print ("DAYS IN DATABASE: ", len(data))
-  if day_to_predict == 0:
-    day_to_predict = len(data) + 1
-  day_to_predict = [day_to_predict]
+  #print ("DAYS IN DATABASE: ", len(data))
+  if day == 0:
+    day = len(data) + 1
+  day_to_predict = [day]
   model = COVIDModel(data=data, split_data=split, degree=degree)
   prediction = model.predict(day_to_predict)
   score = model.score()
-  print("ACCURACY: ", score)
-  if not split:
-    print ("DAY {} - INFECTED PEOPLE: {}".format(day_to_predict[0], math.floor(prediction[0])))
-  model._plot_results()
-
+  #model._plot_results()
+  print("INFECTED:", math.floor(prediction[0]), score)
+  #return (prediction[0], score)
 
 if __name__ == "__main__":
-  start()
+  inf, score = start()
