@@ -76,14 +76,14 @@ class COVIDModel:
 @click.option("--degree", default=3, help="degree of the fit polynomial", type=int)
 def start(day=0, split=False, degree=3):
   data = pd.read_csv("./infected.csv")
-  #print ("DAYS IN DATABASE: ", len(data))
+  print ("DAYS IN DATABASE: ", len(data))
   if day == 0:
     day = len(data) + 1
   day_to_predict = [day]
   model = COVIDModel(data=data, split_data=split, degree=degree)
   prediction = model.predict(day_to_predict)
   score = model.score()
-  #model._plot_results()
+  # model._plot_results()
   print("INFECTED:", math.floor(prediction[0]), score)
   #return (prediction[0], score)
 
