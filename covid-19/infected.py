@@ -83,7 +83,7 @@ def start(day=0, split=False, degree=3):
   model = COVIDModel(data=data, split_data=split, degree=degree)
   prediction = model.predict(day_to_predict)
   score = model.score()
-  # model._plot_results()
+  model._plot_results()
   print("INFECTED:", math.floor(prediction[0]), score)
   #return (prediction[0], score)
 
