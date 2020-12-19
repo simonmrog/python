@@ -17,7 +17,7 @@ class Item(BaseModel):
 # endpoints
 @app.get('/')
 def hello_world():
-  return "Welcome to the API!"
+  return "Welcome to the Items Crud API!"
 
 
 @app.get("/items")
