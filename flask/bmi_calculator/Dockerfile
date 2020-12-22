@@ -7,5 +7,4 @@ RUN pip install --upgrade -r requirements.txt
 
 # Copy app
 COPY api api
-EXPOSE 3001
 CMD python ./api/app.py
