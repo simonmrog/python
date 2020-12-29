@@ -1,0 +1,14 @@
+version: "3.3"
+
+services:
+  web:
+    image: tdd-fastapi:v1.0.0
+    build: .
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    ports:
+      - 4200:8000
+    environment:
+      - ENVIRONMENT=dev
+      - TESTING=0
+    volumes:
+      - ./:/usr/src/app
