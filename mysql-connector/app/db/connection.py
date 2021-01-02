@@ -4,7 +4,7 @@ import mysql.connector
 def connect():
     try:
         conn = mysql.connector.connect(
-            host="localhost",
+            host="192.168.0.4",
             port="3306",
             database="mydb",
             user="user",
@@ -16,6 +16,6 @@ def connect():
             return conn
         else:
             raise Exception("Connection Error")
-            return None
     except Exception as e:
         print("[ERROR]", e)
+        return None
