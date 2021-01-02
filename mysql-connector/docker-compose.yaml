@@ -1,0 +1,44 @@
+version: "3.3"
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=userpassword
+      - MYSQL_DATABASE=mydb
+    ports:
+      - 3306:3306
+    volumes:
+      - mydb:/var/lib/mysql
+    networks:
+      mynet:
+        ipv4_address: "192.168.0.4"
+
+  employees:
+    build: .
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    ports:
+      - 4000:8000
+    networks:
+      mynet:
+        ipv4_address: "192.168.0.5"
+    depends_on:
+      - db
+    links:
+      - db
+
+volumes:
+  mydb:
+    external: true
+
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.0.0/24"
