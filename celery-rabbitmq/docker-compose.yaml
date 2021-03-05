@@ -1,0 +1,27 @@
+version: "3.2"
+
+services:
+  rabbitmq:
+    build:
+      context: ./
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 9890:15672
+      - 8888:5672
+    hostname: stats
+    volumes:
+      - ./data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 0.5
+    networks:
+      - rabbitmq
+
+volumes:
+  data: {}
+
+networks:
+  rabbitmq:
+    driver: bridge
