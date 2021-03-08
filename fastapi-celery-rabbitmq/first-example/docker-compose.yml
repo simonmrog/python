@@ -13,4 +13,4 @@ services:
 
   worker:
     image: celery_simple:latest
-    entrypoint: celery --app app.workers.calc worker -c 2 --loglevel=info
+    entrypoint: celery --app app.workers.calc worker -c 3 --loglevel=info
