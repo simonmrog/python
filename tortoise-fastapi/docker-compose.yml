@@ -1,14 +1,26 @@
 version: "3.7"
 
 services:
-  web:
+  tortoise-fastapi:
     build: .
     command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
     volumes:
       - ./:/usr/src/app
     ports:
-      - 8004:8000
+      - 9000:8000
     environment:
       - ENVIRONMENT
       - TESTING
-      - POSTGRES_URL
+      - POSTGRES_URL=postgres://postgres:postgres@tortoise-fastapi-db:5432/cities
+    depends_on:
+      - tortoise-fastapi-db
+
+  tortoise-fastapi-db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
