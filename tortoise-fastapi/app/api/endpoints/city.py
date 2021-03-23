@@ -13,7 +13,9 @@ async def get_cities():
     for city in cities:
         task = asyncio.create_task(CityModel.get_current_time(city))
         tasks.append(task)
-    await asyncio.gather(*tasks)
+
+    futures = [CityModel.get_current_time(city) for city in cities]
+    await asyncio.gather(*futures)
     return cities
 
 
