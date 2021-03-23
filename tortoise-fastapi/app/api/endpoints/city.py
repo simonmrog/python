@@ -1,15 +1,20 @@
 from fastapi import APIRouter
 from app.models.city import City as CityModel
 from app.schemas.city import CityIn, CityOut
-from app.db import cities
+import asyncio
 
 router = APIRouter()
 
 
 @router.get("/")
 async def get_cities():
-    cities_out = await CityOut.from_queryset(CityModel.all())
-    return cities_out
+    cities = await CityOut.from_queryset(CityModel.all())
+    tasks = []
+    for city in cities:
+        task = asyncio.create_task(CityModel.get_current_time(city))
+        tasks.append(task)
+    await asyncio.gather(*tasks)
+    return cities
 
 
 @router.get("/{city_id}")
