@@ -22,4 +22,4 @@ class City(Model):
             obj.current_time = current_time
 
     class PydanticMeta:
-        computed = ("current_time", )
+        computed = ("current_time",)

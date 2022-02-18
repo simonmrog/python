@@ -18,8 +18,9 @@ async def get_users(user: UserAuth = Depends(user_auth_service.get_current_user)
 
 @router.post("/", response_model=UserAuthSchema)
 async def create_user(user: UserAuthInSchema):
-    user_obj = UserAuth(username=user.username,
-                        password_hash=bcrypt.hash(user.password_hash))
+    user_obj = UserAuth(
+        username=user.username, password_hash=bcrypt.hash(user.password_hash)
+    )
     await user_obj.save()
     user = await UserAuthSchema.from_tortoise_orm(user_obj)
     return user

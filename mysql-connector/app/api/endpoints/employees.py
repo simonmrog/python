@@ -51,7 +51,7 @@ async def read_by_id(employee_id: int):
         conn = connect()
         cursor = conn.cursor()
         query = "SELECT * FROM employees WHERE id = %s"
-        values = (employee_id, )
+        values = (employee_id,)
         cursor.execute(query, values)
         employee = cursor.fetchone()
 
@@ -71,7 +71,7 @@ async def delete(employee_id: int):
     conn = connect()
     cursor = conn.cursor()
     query = "DELETE FROM employees WHERE id= %s"
-    values = (employee_id, )
+    values = (employee_id,)
     try:
         cursor.execute(query, values)
         conn.commit()

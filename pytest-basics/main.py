@@ -3,7 +3,7 @@ def sum_numbers(x, y):
 
 
 def write_file(fpath, data):
-    with open(fpath, 'w') as file:
+    with open(fpath, "w") as file:
         file.write(data)
 
 

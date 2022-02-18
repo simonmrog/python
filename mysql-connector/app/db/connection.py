@@ -8,7 +8,7 @@ def connect():
             port="3306",
             database="mydb",
             user="user",
-            password="userpassword"
+            password="userpassword",
         )
 
         if conn.is_connected():

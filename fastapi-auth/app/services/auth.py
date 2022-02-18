@@ -11,7 +11,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/access-token")
 
 
 class UserAuthService:
-
     async def auth_user(self, *, username: str, password: str):
         try:
             user = await UserAuth.get(username=username)
@@ -26,13 +25,12 @@ class UserAuthService:
 
     async def get_current_user(self, *, token: str = Depends(oauth2_scheme)):
         try:
-            payload = jwt.decode(
-                token, settings.JWT_SECRET, algorithms=["HS256"])
+            payload = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
             user = await UserAuth.get(id=payload.get("id"))
         except:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid username or password"
+                detail="Invalid username or password",
             )
 
         return await UserAuthSchema.from_tortoise_orm(user)

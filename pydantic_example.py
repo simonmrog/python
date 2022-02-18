@@ -12,15 +12,13 @@ class User(BaseModel):
     created_at: Optional[datetime] = None
     friends: List[int] = []
 
-
     @validator("password")
     def password_validator(cls, password):
         if len(password) < 8:
             raise Exception("Password must be longer than 8 characters")
             return None
         return password
-    
-    
+
     @validator("password_confirm")
     def passwords_match(cls, password_confirm, values):
         print(values)
@@ -37,7 +35,7 @@ def use_pydantic():
             "username": "simon",
             "password": "mypass123",
             "password_confirm": "mypass",
-            "friends": [1, "2", 3]
+            "friends": [1, "2", 3],
         }
 
         user = User(**user_data)
@@ -47,4 +45,4 @@ def use_pydantic():
 
 
 if __name__ == "__main__":
-  use_pydantic()
+    use_pydantic()

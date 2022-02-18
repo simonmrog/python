@@ -3,7 +3,7 @@ from fastapi.encoders import jsonable_encoder
 
 from app.database import retrieve_students
 
-from app.models.student import (StudentSchema, ResponseModel)
+from app.models.student import StudentSchema, ResponseModel
 
 
 router = APIRouter()

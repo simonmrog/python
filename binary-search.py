@@ -1,6 +1,7 @@
 import random
 
-def recursive_binary_search (data, target, min, max):
+
+def recursive_binary_search(data, target, min, max):
 
     flag = False
 
@@ -10,14 +11,14 @@ def recursive_binary_search (data, target, min, max):
         if target == data[mean]:
             flag = True
         elif target < data[mean]:
-            flag = recursive_binary_search (data, target, min, mean - 1)
+            flag = recursive_binary_search(data, target, min, mean - 1)
         else:
-            flag = recursive_binary_search (data, target, mean + 1, max)
+            flag = recursive_binary_search(data, target, mean + 1, max)
 
-    return (flag)
+    return flag
 
 
-def iterative_binary_search (data, target, min, max):
+def iterative_binary_search(data, target, min, max):
 
     flag = False
 
@@ -33,30 +34,30 @@ def iterative_binary_search (data, target, min, max):
         else:
             min = mean + 1
 
-    return (flag)
+    return flag
 
 
-def create_list (size):
+def create_list(size):
 
     list = []
-    for i in range (0, size):
-        list.append (random.randint (0, 100))
+    for i in range(0, size):
+        list.append(random.randint(0, 100))
 
-    return (list)
+    return list
 
 
-def main ():
+def main():
 
     SIZE = 10
-    data = create_list (SIZE);
+    data = create_list(SIZE)
     sorted_data = sorted(data)
-    print (sorted_data)
-    target = int (input ("Number to find: "))
-    found = recursive_binary_search (sorted_data, target, 0, len(data) - 1)
-    print ("The recursive method found: " + str (found))
-    found = iterative_binary_search (sorted_data, target, 0, len(data) - 1)
-    print ("The iterative method found: " + str (found))
+    print(sorted_data)
+    target = int(input("Number to find: "))
+    found = recursive_binary_search(sorted_data, target, 0, len(data) - 1)
+    print("The recursive method found: " + str(found))
+    found = iterative_binary_search(sorted_data, target, 0, len(data) - 1)
+    print("The iterative method found: " + str(found))
 
 
 if __name__ == "__main__":
-    main ()
+    main()

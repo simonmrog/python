@@ -10,9 +10,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 
 def init_app(port):
-    app = tornado.web.Application([
-        (r"/", MainHandler)
-    ])
+    app = tornado.web.Application([(r"/", MainHandler)])
     app.listen(port)
     tornado.ioloop.IOLoop.current().start()
 

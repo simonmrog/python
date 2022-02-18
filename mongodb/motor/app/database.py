@@ -19,7 +19,7 @@ def student_helper(student) -> dict:
         "email": student["email"],
         "course_of_study": student["course_of_study"],
         "year": student["year"],
-        "gpa": student["gpa"]
+        "gpa": student["gpa"],
     }
 
 

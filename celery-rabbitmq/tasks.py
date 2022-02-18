@@ -1,8 +1,11 @@
 from celery import Celery
 from time import sleep
 
-app = Celery("tasks", broker="amqp://admin:admin@localhost:8888",
-             backend="amqp://admin:admin@localhost:8888")
+app = Celery(
+    "tasks",
+    broker="amqp://admin:admin@localhost:8888",
+    backend="amqp://admin:admin@localhost:8888",
+)
 
 
 @app.task

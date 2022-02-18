@@ -5,9 +5,7 @@ from firstScrapy.items import QuoteItem
 
 class QuotesSpider(scrapy.Spider):
     name: str = "quotes"
-    start_urls: List[str] = [
-        "https://bluelimelearning.github.io/my-fav-quotes/"
-    ]
+    start_urls: List[str] = ["https://bluelimelearning.github.io/my-fav-quotes/"]
 
     def parse(self, response) -> Dict[str, str]:
         quotes = response.css("div.quotes")

@@ -12,13 +12,13 @@ def index():
 
 
 @app.get(
-  "/get_file/{filename}",
-  responses={
-      200: {
-          "description": "Returns a file",
-          "content": {"text/plain": {"example": "(no example available)"}}
-      }
-  } 
+    "/get_file/{filename}",
+    responses={
+        200: {
+            "description": "Returns a file",
+            "content": {"text/plain": {"example": "(no example available)"}},
+        }
+    },
 )
 def get_file(filename: str) -> Optional[FileResponse]:
     current_workdir = os.path.abspath(os.getcwd())

@@ -8,12 +8,7 @@ def test_sum_numbers():
 
 @pytest.mark.parametrize(
     "input_a,input_b,expected",
-    [
-        (3, 2, 5),
-        (2, 3, 5),
-        (sum_numbers(3, 2), 5, 10),
-        (3, sum_numbers(2, 5), 10)
-    ]
+    [(3, 2, 5), (2, 3, 5), (sum_numbers(3, 2), 5, 10), (3, sum_numbers(2, 5), 10)],
 )
 def test_sum_numbers_multi(input_a, input_b, expected):
     assert sum_numbers(input_a, input_b) == expected

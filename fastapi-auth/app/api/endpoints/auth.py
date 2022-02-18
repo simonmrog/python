@@ -12,8 +12,7 @@ router = APIRouter()
 @router.post("/access-token")
 async def get_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await user_auth_service.auth_user(
-        username=form_data.username,
-        password=form_data.password
+        username=form_data.username, password=form_data.password
     )
     if not user:
         return {"error": "Invalid credentials"}
