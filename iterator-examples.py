@@ -31,3 +31,15 @@ if __name__ == "__main__":
     fibonacci_iterator = iter(fibonacci_series)
     fibonacci_array = [k for k in fibonacci_series]
     print(fibonacci_array)
+
+    # For-like loop example
+    def for_like_loop(fn):
+        iter_obj = iter(fibonacci_series)
+        while True:
+            try:
+                i = next(iter_obj)
+                fn(i)
+            except StopIteration:
+                break
+
+    for_like_loop(print)
