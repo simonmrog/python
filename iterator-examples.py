@@ -33,8 +33,8 @@ if __name__ == "__main__":
     print(fibonacci_array)
 
     # For-like loop example
-    def for_like_loop(fn):
-        iter_obj = iter(fibonacci_series)
+    def for_like_loop(iterable, fn):
+        iter_obj = iter(iterable)
         while True:
             try:
                 i = next(iter_obj)
@@ -42,4 +42,7 @@ if __name__ == "__main__":
             except StopIteration:
                 break
 
-    for_like_loop(print)
+    # similar to
+    # for i in fibonacci_series:
+    #   print(i)
+    for_like_loop(fibonacci_series, print) 
