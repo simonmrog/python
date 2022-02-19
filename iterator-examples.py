@@ -1,4 +1,4 @@
-class Fibonacci:
+class FibonacciIterable:
     def __init__(self, max):
         self.__max = max
 
@@ -27,7 +27,7 @@ class Fibonacci:
 
 if __name__ == "__main__":
     n = 10
-    fibonacci_series = Fibonacci(n)
+    fibonacci_series = FibonacciIterable(n)
     fibonacci_iterator = iter(fibonacci_series)
     fibonacci_array = [k for k in fibonacci_series]
     print(fibonacci_array)
