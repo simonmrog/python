@@ -26,9 +26,9 @@ class Fibonacci:
 
 
 if __name__ == "__main__":
-    n = int(input())
+    n = 10
     fibonacci_series = Fibonacci(n)
     fibonacci_iterator = iter(fibonacci_series)
 
-    for k in fibonacci_iterator:
-        print(k)
+    fibonacci_array = [k for k in fibonacci_series]
+    print(fibonacci_array)
